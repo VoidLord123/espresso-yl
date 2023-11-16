@@ -1,13 +1,14 @@
 import sqlite3
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QComboBox
-from PyQt5 import uic
+from PyQt5.QtWidgets import QApplication, QMainWindow
+from UI.addEditCoffeeForm import Ui_MainWindow as addForm
+from UI.main_ui import Ui_MainWindow
 
 
-class AddWidget(QMainWindow):
+class AddWidget(addForm, QMainWindow):
     def __init__(self, parent):
         super().__init__(parent)
-        uic.loadUi("addEditCoffeeForm.ui", self)
+        self.setupUi(self)
         self.setWindowTitle("Добавить кофе")
         self.pushButton.clicked.connect(self.btn_handler)
 
@@ -21,11 +22,11 @@ class AddWidget(QMainWindow):
             pass
 
 
-class MainWindow(QMainWindow):
+class MainWindow(Ui_MainWindow, QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("main.ui", self)
-        self.db = sqlite3.connect("coffee.sqlite")
+        self.setupUi(self)
+        self.db = sqlite3.connect("./data/coffee.sqlite")
         self.show_label_d.setWordWrap(True)
         self.addButton.clicked.connect(self.add_btn_handler)
         self.update_combobox()
